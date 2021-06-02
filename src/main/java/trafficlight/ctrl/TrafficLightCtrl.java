@@ -19,12 +19,25 @@ public class TrafficLightCtrl {
 
     private boolean doRun = true;
 
-    public TrafficLightCtrl() {
+    // Singleton Pattern: private constructor and instance, Getter to access (creation of only one instance allowed)
+    private static TrafficLightCtrl control = null;
+
+    public static TrafficLightCtrl getControl() {
+        if (control == null){
+            control = new TrafficLightCtrl();
+        }
+        return control;
+    }
+
+    private TrafficLightCtrl() {
         super();
         initStates();
         gui = new TrafficLightGui(this);
         gui.setVisible(true);
-        //TODO useful to update the current state
+        //TODO used to update the current state -> register Observers
+        greenState.registerObserver(gui);
+        yellowState.registerObserver(gui);
+        redState.registerObserver(gui);
     }
 
     private void initStates() {
@@ -32,7 +45,8 @@ public class TrafficLightCtrl {
             @Override
             public State getNextState() {
                 previousState = currentState;
-                //TODO useful to update the current state and the old one
+                //TODO used to update the current state and the old one -> notifyObservers
+                notifyObservers(getColor());
                 return yellowState;
             }
             @Override
@@ -45,7 +59,8 @@ public class TrafficLightCtrl {
             @Override
             public State getNextState() {
                 previousState = currentState;
-                //TODO useful to update the current state and the old one
+                //TODO used to update the current state and the old one -> notifyObservers
+                notifyObservers(getColor());
                 return yellowState;
             }
             @Override
@@ -59,11 +74,13 @@ public class TrafficLightCtrl {
             public State getNextState() {
                 if (previousState.equals(greenState)) {
                     previousState = currentState;
-                    //TODO useful to update the current state and the old one
+                    //TODO used to update the current state and the old one -> notifyObservers
+                    notifyObservers(getColor());
                     return redState;
                 }else {
                     previousState = currentState;
-                    //TODO useful to update the current state and the old one
+                    //TODO used to update the current state and the old one -> notifyObservers
+                    notifyObservers(getColor());
                     return greenState;
                 }
             }

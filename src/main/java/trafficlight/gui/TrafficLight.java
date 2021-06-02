@@ -18,5 +18,5 @@ public class TrafficLight extends Light {
         return isOn;
     }
 
-    //TODO implement a part of the pattern here
+    //TODO implement a part of the pattern here -> ?????????
 }
