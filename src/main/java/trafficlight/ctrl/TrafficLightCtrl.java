@@ -123,6 +123,10 @@ public class TrafficLightCtrl {
         currentState = currentState.getNextState();
     }
 
+    public State getCurrentState(){
+        return currentState;
+    }
+
     public void stop() {
         doRun = false;
     }
